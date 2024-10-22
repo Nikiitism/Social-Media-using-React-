@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {PostList} from "../store/post-list-store";
+import { useNavigate } from "react-router-dom";
+
 
 const CreatePost = () =>{
 
   const {addPost} = useContext(PostList);
+  const navigate = useNavigate();
   const userIdElement = useRef();
   const postTitleElement = useRef();
   const postBodyElement = useRef();
@@ -21,9 +23,7 @@ const CreatePost = () =>{
       postBodyElement.current.value === '' ||
       reactionsElement.current.value === ''||
       tagsElement.current.value === '')
-      {
-        setError('All fields are required');
-        return;}
+      {  setError('All fields are required');   return;}
 
     setError('');
 
@@ -42,7 +42,9 @@ const CreatePost = () =>{
     // alert('woho!! Posted.')
     setPopupVisible(true);
     addPost(userId, postTitle, postBody, reactions, tags)
+    navigate('/');
   }
+  
   
   useEffect(() => {
     if (isPopupVisible) {
@@ -59,7 +61,7 @@ const CreatePost = () =>{
 
 <div className="mb-3">
       <label htmlFor="userId" className="form-label">Enter your User Id here</label>
-      <input type="text" ref={userIdElement} placeholder="Your User Id" className="form-control" id="userId"/>
+      <input type="number" ref={userIdElement} placeholder="Your User Id" className="form-control" id="userId"/>
     </div>
     <div className="mb-3">
       <label htmlFor="title" className="form-label">Post Title</label>
